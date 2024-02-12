@@ -6,10 +6,13 @@
 
 ## 🎓 J'ai compris et je peux expliquer
 
-- les `structures` de base du langage ❌ / ✔️
-- les normes `ecmascript` ❌ / ✔️
-- l'utilisation de l'`asynchrone` ❌ / ✔️
-- les spécifités du mot-clef `this` ❌ / ✔️
+- les `structures` de base du langage ✔️
+- les normes `ecmascript` ✔️
+- l'utilisation de l'`asynchrone` ✔️
+- les spécifités du mot-clef `this` ✔️
+- les fonctions ✔️
+- le DOM ✔️
+- les événements ✔️
 
 ## 💻 Je code en Javascript
 
@@ -60,4 +63,3 @@ Résolution :
 
 - J'ai ecrit un [tutoriel](...) ❌ / ✔️
 - J'ai fait une [présentation](...) ❌ / ✔️
-
