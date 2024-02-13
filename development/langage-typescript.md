@@ -11,6 +11,7 @@
 
 ### Un exemple personnel commenté ✔️
 
+```javascript
 export type AdType = {
 id: number;
 link: string;
@@ -38,6 +39,7 @@ data: dataCategory,
 error: errorCategory,
 loading: loadingCategory,
 } = useQuery<{ allCategories: CategoryType[] }>(queryAllCategories);
+```
 
 ### Utilisation dans un projet ❌ / ✔️
 
@@ -68,3 +70,7 @@ Résolution :
 
 - J'ai ecrit un [tutoriel](...) ❌ / ✔️
 - J'ai fait une [présentation](...) ❌ / ✔️
+
+```
+
+```
