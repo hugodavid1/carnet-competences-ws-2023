@@ -1,60 +1,144 @@
 # GraphQL
 
-> ❌ A travailler
-
-> ✔️ Auto validation par l'étudiant
-
 ## 🎓 J'ai compris et je peux expliquer
 
-- la différence entre REST et GraphQL ❌ / ✔️
-- les besoins auxquels répond GraphQL ❌ / ✔️
+- la différence entre REST et GraphQL ✔️
+- les besoins auxquels répond GraphQL ✔️
 - la définition d'un schéma
-- Query ❌ / ✔️
-- Mutation ❌ / ✔️
-- Subscription ❌ / ✔️
+- Query ✔️
+- Mutation ✔️
+- Subscription ✔️
 
 ## 💻 J'utilise
 
-### Un exemple personnel commenté ❌ / ✔️
-
 ### Utilisation dans un projet ❌ / ✔️
 
-[lien github](...)
+```javascript
+@Resolver(VerificationCode)
+export class VerificationCodeResolver {
+  @Mutation(() => Boolean)
+  async generateNewVerificationCode(
+    @Arg("userId") userId: number
+  ): Promise<boolean> {
+    try {
+      const user = await User.findOneBy({ id: userId });
+      if (!user) {
+        throw new Error("Utilisateur non trouvé");
+      }
+      const verificationCodeLength = 8;
+      const newCode = generateSecurityCode(verificationCodeLength);
+      let verificationCode = await VerificationCode.findOneBy({
+        user: { id: userId },
+        type: typeCodeVerification,
+      });
+      if (verificationCode) {
+        verificationCode.code = newCode;
+        verificationCode.expirationDate = new Date(
+          Date.now() + 24 * 60 * 60 * 1000
+        );
+        verificationCode.maximumTry = 0;
+      } else {
+        verificationCode = VerificationCode.create({
+          user,
+          code: newCode,
+          type: typeCodeVerification,
+          expirationDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          maximumTry: 0,
+        });
+      }
+
+      await verificationCode.save();
+
+      await sendVerificationEmail(user.id, user.email, newCode);
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+}
+
+  @Query(() => [Category])
+  async allCategories(): Promise<Category[]> {
+    const categories = await Category.find({ relations: { ads: true } });
+    return categories;
+  }
+
+  @Query(() => Category, { nullable: true })
+  async category(@Arg("id", () => ID) id: number): Promise<Category | null> {
+    const category = await Category.findOne({
+      where: { id: id },
+      relations: { ads: true },
+    });
+    return category;
+  }
+
+  @Mutation(() => Category)
+  async createCategory(
+    @Arg("data", () => CategoryCreateInput) data: CategoryCreateInput
+  ): Promise<Category> {
+    const newCategory = new Category();
+    Object.assign(newCategory, data);
+
+    const errors = await validate(newCategory);
+    if (errors.length === 0) {
+      await newCategory.save();
+      return newCategory;
+    } else {
+      throw new Error(`Error occured: ${JSON.stringify(errors)}`);
+    }
+  }
+
+  @Mutation(() => Category, { nullable: true })
+  async updateCategory(
+    @Arg("id", () => ID) id: number,
+    @Arg("data") data: CategoryUpdateInput
+  ): Promise<Category | null> {
+    const category = await Category.findOne({
+      where: { id: id },
+    });
+    if (category) {
+      Object.assign(category, data);
+
+      const errors = await validate(category);
+      if (errors.length === 0) {
+        await category.save();
+      } else {
+        throw new Error(`Error occured: ${JSON.stringify(errors)}`);
+      }
+    }
+    return category;
+  }
+
+```
+
+### Utilisation en environement professionnel ❌
 
 Description :
-
-### Utilisation en production si applicable❌ / ✔️
-
-[lien du projet](...)
-
-Description :
-
-### Utilisation en environement professionnel ❌ / ✔️
-
-Description :
-
-## 🌐 J'utilise des ressources
 
 ### Titre
 
-- lien
-- description
+### les limites de REST:
 
-## 🚧 Je franchis les obstacles
+- Overfetching (on a tendance a récupérer plus d'informations que le client en demande)
+- Multiplication des appels
+- Typage
 
-### Point de blocage ❌ / ✔️
+### Les besoins auquels répondent Graphql
 
-Description:
+- Exact-fetching
 
-Plan d'action : (à valider par le formateur)
+### Différence principales entre REST et GraphQL:
 
-- action 1 ❌ / ✔️
-- action 2 ❌ / ✔️
-- ...
+- Rest plusieurs points d'entrée // GraphQL un seul point d'entrée intelligent
+- Graphql pas d'endpoints nommé comme les fichiers,le client fait sa demande parmis les méthodes proposé par le serveur
 
-Résolution :
+### GraphQL:
 
-## 📽️ J'en fais la démonstration
+- Fortement Typé
+- Type peuvent être scalaire (type primitifs) ou des objets avec champs
+- relations définis dans les schémas
+- Subscriptions = notifications en temps réels
+- Resolvers (remplacent les controllers en REST) qui sont appellé pour répondre au mutation/queries
 
-- J'ai ecrit un [tutoriel](...) ❌ / ✔️
-- J'ai fait une [présentation](...) ❌ / ✔️
+### Ressources externes (liens)

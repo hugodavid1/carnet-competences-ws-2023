@@ -9,7 +9,7 @@
 
 ## 💻 J'utilise
 
-### Un exemple personnel commenté ✔️
+### Un exemple dans un pojet ✔️
 
 ```javascript
 export type AdType = {
@@ -41,35 +41,10 @@ loading: loadingCategory,
 } = useQuery<{ allCategories: CategoryType[] }>(queryAllCategories);
 ```
 
-### Utilisation dans un projet ❌ / ✔️
-
-[lien github](...)
-
-Description :
-
 ### Titre
 
-- lien
-- description
-
-## 🚧 Je franchis les obstacles
-
-### Point de blocage ❌ / ✔️
-
-Description:
-
-Plan d'action : (à valider par le formateur)
-
-- action 1 ❌ / ✔️
-- action 2 ❌ / ✔️
-- ...
-
-Résolution :
-
-## 📽️ J'en fais la démonstration
-
-- J'ai ecrit un [tutoriel](...) ❌ / ✔️
-- J'ai fait une [présentation](...) ❌ / ✔️
+[- lien](https://www.typescriptlang.org/docs/handbook/2/objects.html)
+[- lien](https://ts.chibicode.com/todo/)
 
 ```
 
